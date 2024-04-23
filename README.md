@@ -1,4 +1,3 @@
-CREDITS
 #CREDITS FOR ASSETS USED
 For the sound effects I utilized assets on opengameart.org and all the credits can be found within the actual code as well as here
 Orbital Colossus.mp3 (background music) by Matthew Pablo
