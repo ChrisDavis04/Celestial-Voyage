@@ -112,6 +112,43 @@ class Meteor(simpleGE.Sprite):
             self.moveAngle = random.randint(270, 450)
             self.speed = random.randint(3,7)
 
+
+class Comet(simpleGE.Sprite):
+    def __init__(self, scene):
+        super().__init__(scene)
+        self.setImage("comet.png")
+        self.setSize(50, 50)
+        self.reset()
+
+
+#have the meteors come from different sides and move at different angles
+    def reset(self):
+        side = random.randint(1, 4)
+        if side == 1:
+            self.y = 25
+            self.x = random.randint(25, 615)
+            self.moveAngle = random.randint(180, 360)
+            self.speed = random.randint(3, 7)
+            
+        
+        if side == 2:
+            self.y = random.randint(25, 455)
+            self.x = 615
+            self.moveAngle = random.randint(90, 270)
+            self.speed = random.randint(3,7)
+        
+        if side == 3:
+            self.y = 455
+            self.x = random.randint(25, 615)
+            self.moveAngle = random.randint(0, 180)
+            self.speed = random.randint(3, 7)
+            
+        if side == 4:
+            self.y = random.randint(25, 455)
+            self.x = 25
+            self.moveAngle = random.randint(270, 450)
+            self.speed = random.randint(3,7)
+
 #Game textboxes
 class GameScore(simpleGE.Sprite):
     def __init__(self, scene):
@@ -174,6 +211,25 @@ class Game(simpleGE.Scene):
         
         self.timer = simpleGE.Timer()
         
+        pygame.mixer.music.load("Orbital Colossus.mp3")
+        pygame.mixer.music.play()
+        #Music track by Matthew Pablo on opengameart.org
+        #self.sndBG = simpleGE.Sound("Orbital Colossus.mp3")
+        #self.sndBG.play()
+        
+        self.sndHeal = simpleGE.Sound("17.mp3")
+        #sound effect by Zoltan Milhayi on opengameart.org
+        
+        self.sndShoot = simpleGE.Sound("laser3.wav")
+        #sound effect by dklon on opengameart.org
+        
+        self.sndExplode = simpleGE.Sound("laser11.wav")
+        #sound effect by dklon on opengameart.org
+        
+        self.sndDamage = simpleGE.Sound("8bit_bomb_explosion.wav")
+        #sound effect by Luke.RUSTLTD on opengameart.org
+        
+        
         self.score = 0
         self.gameScore = GameScore(self)
         self.lblScore = LblScore()
@@ -184,9 +240,12 @@ class Game(simpleGE.Scene):
         self.timeBox = TimeBox(self)
         self.lblTime = LblTime()
         
+        self.numMeteors = 10
+        self.numComets = 3
         
-        self.numMeteors = 1
-            
+        self.comets = []
+        for i in range(self.numComets):
+            self.comets.append(Comet(self))
             
         
         self.meteors = []
@@ -200,28 +259,34 @@ class Game(simpleGE.Scene):
         for i in range(self.numBullets):
             self.bullets.append(Bullet(self, self.ship))
         
-        self.sprites = [self.ship, self.bullets, self.meteors, self.timeBox, self.gameScore, self.lblTime, self.healthBox, self.lblHealth, self.lblScore]
+        self.sprites = [self.ship, self.bullets, self.meteors, self.comets, self.timeBox, self.gameScore, self.lblTime, self.healthBox, self.lblHealth, self.lblScore]
     
     def process(self):
         for meteor in self.meteors:
             if self.ship.collidesWith(meteor):
                 meteor.reset()
                 self.ship.hitPoints -= 1
+                self.sndDamage.play()
                 self.lblHealth.text = f"Health: {self.ship.hitPoints}"
             
             for bullet in self.bullets:
                 if bullet.collidesWith(meteor):
+                    self.sndExplode.play()
                     self.score += 1
                     self.lblScore.text = f"Score: {self.score}"
                     meteor.reset()
         
+        for comet in self.comets:
+            if self.ship.collidesWith(comet):
+                comet.reset()
+                self.ship.hitPoints += 1
+                self.sndHeal.play()
+                self.lblHealth.text = f"Health: {self.ship.hitPoints}"
+        
         self.lblTime.text = f"Time Passed:{self.timer.getElapsedTime():.0f}"
-        if self.timer.getElapsedTime() >= 5:
-            self.numMeteors = 10
             
         if self.ship.hitPoints <= 0:
             self.stop()
-        
     
     def processEvent(self, event):
         if event.type == pygame.KEYDOWN:
@@ -230,6 +295,7 @@ class Game(simpleGE.Scene):
                 if self.currentBullet >= self.numBullets:
                     self.currentBullet = 0
                 self.bullets[self.currentBullet].fire()
+                self.sndShoot.play()
 
 
 class Instructions(simpleGE.Scene):
@@ -239,6 +305,13 @@ class Instructions(simpleGE.Scene):
         
         self.status = "quit"
         self.score = score
+        
+        self.sndPress = simpleGE.Sound("laser7.wav")
+        #sound effect by dklon on opengameart.org
+        
+        pygame.mixer.music.load("Space Music.mp3")
+        #music by Hitctrl on opengameart.org
+        pygame.mixer.music.play()
         
         self.cage = Cage(self)
         self.playBG = PlayBox(self)
@@ -283,16 +356,20 @@ class Instructions(simpleGE.Scene):
     def process(self):
         if self.btnPlay.clicked:
             self.status = "play"
+            self.sndPress.play()
             self.stop()
         if self.btnQuit.clicked:
             self.status = "quit"
+            self.sndPress.play()
             self.stop()
             
         if self.isKeyPressed(pygame.K_UP):
             self.status = "play"
+            self.sndPress.play()
             self.stop()
         if self.isKeyPressed(pygame.K_DOWN):
             self.status = "quit"
+            self.sndPress.play()
             self.stop()
 
 def main():
