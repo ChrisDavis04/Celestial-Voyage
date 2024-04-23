@@ -3,16 +3,24 @@
 For the sound effects I utilized assets on opengameart.org and all the credits can be found within the actual code as well as here
 
 Orbital Colossus.mp3 (background music) by Matthew Pablo
+https://opengameart.org/content/space-boss-battle-theme
 
 Laser3.wav, Laser11.wav, and Laser7.wav (shooting, explosion, and button sound effects) by dklon
+https://opengameart.org/content/laser-fire
 
 8bit_bomb_explosion.wav (damage sound effect) by Luke.RUSTLTD
+https://opengameart.org/content/bombexplosion8bit
 
 17.mp3 (healing sound effect) by Zoltan Milhalyi
+https://opengameart.org/content/jingling-heal
 
 Space Music.mp3 (background music) by Hitctrl
+https://opengameart.org/content/space-music-2
 
 All of the visual elments such as the background, ship, text boxes, and meteors were all hand drawn by me
+
+# Goals
+The overall goal of this project was to create a game that entails the player having to dodge and shoot as many objects as they can before they take too much damage. So this entails having to actually create a player character that is able to rotate as well as shoot at a variety of angles. Then I will also have to figure how to make it so the objects flying around do so randomly and pose enough of a challenge to the player to actually play the game but not excruciatingly unfair to the player to where they just die immediately. I also need to figure out the collision between the bullets and the flying objects (looking back now this was actually the hardest part as my logic was all sorts of messed up, but I remedied it nonetheless.)
 
 # Celestial-Voyage
 Use "w" and "s" to move forward and back. Also use "a" and "d" to turn your ship left and right now use the space bar to help defend yourself against the onslaught of meteors that seek to ravage your ship.
