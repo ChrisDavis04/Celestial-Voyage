@@ -1,5 +1,7 @@
 #CREDITS FOR ASSETS USED
+
 For the sound effects I utilized assets on opengameart.org and all the credits can be found within the actual code as well as here
+
 Orbital Colossus.mp3 (background music) by Matthew Pablo
 
 Laser3.wav, Laser11.wav, and Laser7.wav (shooting, explosion, and button sound effects) by dklon
